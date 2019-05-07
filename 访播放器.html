@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>访播放器</title>
+    <script src="./jquery3.4.0.js"></script>
+    <link rel="stylesheet" href="./font_1156288_75si21528rr/iconfont.css">
+    <style>
+        html,body,div,span,input,video{
+            padding: 0;
+            margin: 0;
+        }
+        div{
+            width: 800px;
+            height: 450px;
+            position: relative;
+            margin:100px auto;
+            border: 1px solid #333; 
+        }
+        span{
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            color: aliceblue;
+            position: absolute;
+        }
+        .iconfont{
+            font-size: 30px;
+        }
+        div span:nth-child(2){
+            bottom: 30px;
+            left: 30px;
+        }
+        div span:nth-child(3){
+            bottom: 30px;
+            right: 30px;
+        }
+        div span:nth-child(4){
+            bottom: 30px;
+            right: 80px;
+        }
+        div span:nth-child(5){
+            bottom: 30px;
+            right: 355px;
+        }
+        div span:nth-child(6){
+            bottom: 30px;
+            right: 133px;
+        }
+        .zjd{
+            padding-top: 10px;
+            width: 800px;
+        }
+        .yl{
+            position: absolute;
+            bottom: 30px;
+            right: 200px;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <video width="800"  loop="loop">
+            <source src="./p16701734-102-009-142746.mp4" type="video/mp4">
+                当前浏览器不支持 video直接播放，点击这里下载视频:<a href="./p16701734-102-009-142746.mp4">下载视频</a>
+        </video>
+        <!-- 播放 -->
+        <span class="iconfont">&#xe60e</span> 
+        <!-- 全屏 -->
+        <span class="iconfont">&#xe615</span>
+        <!-- 刷新/重载 -->
+        <span class="iconfont">&#xe659</span>
+        <!-- 静音 -->
+        <span class="iconfont">&#xe616</span>
+        <!-- 弹幕 -->
+        <span class="iconfont">&#xe612</span>
+        <input type="range" class="yl" step="0.1">
+        <input type="range" class="zjd">
+    </div>
+    <script>
+        $(function(){
+
+            //播放/暂停
+            $("span").eq(0).click(function(){
+               
+                if($("video")[0].paused){
+                    $("span").eq(0).html("&#xe669")
+                    $("video")[0].play()
+                }else {
+                    $("video")[0].pause()
+                    $("span").eq(0).html("&#xe60e")
+                }
+            })
+
+            //静音
+            $("span").eq(3).click(function(){
+                $("video")[0].muted = !$("video")[0].muted;
+            })
+
+            //音量
+            $("input").eq(0).change(function(){
+                $("video")[0].volume = this.value/100
+            })
+
+            //刷新
+            $("span").eq(2).click(function(){
+                 $("video")[0].load()
+            })
+
+            //全屏
+            $("span").eq(1).click(function(){
+                if(navigator.userAgent.indexOf("Chrome") != -1){
+                    $("video")[0].webkitRequestFullScreen()
+                }else if (navigator.userAgent.indexOf("Firefox") != -1){
+                    $("video")[0].mozRequestFullScreen()
+                }else{
+                    alert("该浏览器不支持全屏")
+                }
+            })
+
+            //进度条
+            $("input").eq(1).change(function(){
+                this.setAttribute("max",$("video")[0].duration);
+                console.log(this)
+
+                $("video")[0].currentTime = this.value
+
+            })
+
+            //屏幕点击事件
+            $("video").eq(0).click(function(){
+                $("span").eq(0).trigger("click");
+            })
+
+        })
+    
+    </script>
+</body>
+</html>
